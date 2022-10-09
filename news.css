@@ -1,0 +1,44 @@
+@font-face {
+  font-family: OpenSans1;
+  src: url(Fonts/Open_Sans/OpenSans-Italic-VariableFont_wdth\,wght.ttf);
+}
+
+
+.card {
+
+
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+transition: 0.4s;
+width: 300px;
+height: fit-content;
+background: #FFFFFF;
+opacity: 0.9;
+text-align: center;
+font-size: 16px;
+float: left;
+margin: 10px;
+top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  position: absolute;
+  border-radius: 4px;
+  font-family: OpenSans1;
+  padding: 8px;
+
+
+}
+
+@media (max-height: 500px) {
+
+  .card{
+
+    top: 100%;
+    font-size: 13px;
+    padding: 7px;
+    
+
+  }
+  
+}
+  
+

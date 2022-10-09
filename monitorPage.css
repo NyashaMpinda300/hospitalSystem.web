@@ -1,0 +1,57 @@
+
+@font-face {
+    font-family: OpenSans;
+    src: url(Fonts/Open_Sans/static/OpenSans/OpenSans-Bold.ttf);
+  }
+  
+  
+.loginPage{
+
+
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  position: absolute;
+  font-family: OpenSans;
+  background-color: #FFFFFF;
+  opacity: 0.9;
+  border-radius: 4px;
+  padding: 40px;
+  /*border: 1px red solid;*/
+  
+  }
+
+.loginPage h1 {
+
+ 
+  text-align: center;
+  text-transform: uppercase;
+  
+}
+
+.loginPage p {
+
+ 
+  margin: 15px 0;
+  
+}
+
+.loginPage input{
+
+
+width: 70%;
+padding: 15px 10px;
+border: 0;
+outline: none;
+border-radius: 5px;
+border: 1px #D3D3D3 solid;
+  
+}
+
+
+
+
+
+

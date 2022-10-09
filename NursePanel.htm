@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="index.css"/>
+    <link rel="stylesheet" href="NursePanel.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    
+<div class="wrapper">
+    <div class="Navigation">
+        <a href="index.html"> <img src="images/logo.png" style="width: 200px; height: 200px; /*border: 1px red solid;*/" class="logo1"/></a>
+        <ul class="Navigation_ul">
+            
+
+            <li class="Navigation_li"><a href="#contact">Contact</a></li>
+            <li class="Navigation_li"><a href="monitorPage.htm">Monitor</a></li>
+            <li class="Navigation_li"><a href="news.htm">News</a></li>
+            <li class="Navigation_li"><a href="index.html">Home</a></li>
+            <a href="index.html"><img src="images/logo.png" style="width: 200px; height: 200px; /*border: 1px red solid;*/" class="logo"/></a>
+        </ul>
+
+    <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+    </div>
+<div class="wrapper2">
+
+    <div class="container">
+
+        <div class="optionsPage">
+            <h2>Nurse Panel</h2>
+            
+            <button class="button" style="vertical-align:middle" onclick="checkVitals()" id="Vitals"><span>View Patient</span></button>
+            <button class="button" style="vertical-align:middle" onclick="takeNotes()" id="dailyDiary"><span>Daily Diary</span></button>
+            <button class="button" style="vertical-align:middle"><span>Log Out</span></button>
+        </div>
+        <div class="statusPage" id="statusPage">
+            <img src="images/profile pic.png" alt="forest" height="50%" width="50%">
+            <p id="profileName">Name: </p>
+            <p id="Email">Email:</p>
+        </div>
+
+        <!--                                   -->
+
+        <div class="patientForm" id="patientForm">
+          <h3>Patient Form</h3>
+            <form action="/action_page.php">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="firstname" placeholder="Your name..">
+          
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+          
+              <label for="country">Country</label>
+              <input type="text" id="country" name="country" placeholder="Enter your country">
+          
+              
+          
+              <label for="subject">Subject</label>
+              <textarea id="subject" name="subject" placeholder="Write something.." style="height:90px"></textarea>
+              <button class="button" style="vertical-align:middle"><span>Submit</span></button>
+              <!-- <input type="submit" value="Submit"> -->
+            </form>
+          </div>
+
+
+          <div class="patientMonitor" id="patientMonitor">
+            <div class="boxContainer">
+<table class="elementsContainer">
+  <tr>
+    <td>
+      <input type="text" placeholder="Patient ID (e.g 1)" class="search1" id = "searchPatient" >
+    </td>
+    <!-- <td><a href="#" class="material-icons" onclick="checkPatientVitals()">search</a></td> -->
+    <td><button class="material-icons" id="click" >search</button></td>
+    
+  </tr>
+
+</table>
+</div>
+
+<div class="Vitals">
+  <img src="vitals/Heart.png" alt="" style="width: 30%; height: 30%;">
+  <p id="heartBeat"></p>
+  </div>
+
+  <div class="Vitals">
+  <img src="vitals/SPO2.png" alt="" style="width: 20%; height: 20%;">
+  <p id="patientOxygen"></p>
+</div>
+
+<div class="Vitals">
+  <img src="vitals/Temperature.png" alt="" style="width: 30%; height: 30%;">
+  <p id="Temperature"></p>
+</div>
+ 
+  </div>
+           
+            </div>
+
+
+
+
+
+        
+
+<!--                                                                 -->
+
+</div>
+</div>
+
+
+
+
+
+    
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+    import { getDatabase, ref, set, child, update, remove,onValue} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+  
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBWb1m9gMuyxtu0nL2-TBH4Xfd14d9fHuE",
+      authDomain: "incaresystemsv2.firebaseapp.com",
+      databaseURL: "https://incaresystemsv2-default-rtdb.firebaseio.com",
+      projectId: "incaresystemsv2",
+      storageBucket: "incaresystemsv2.appspot.com",
+      messagingSenderId: "787841349921",
+      appId: "1:787841349921:web:3a8f575a922713e11e2660",
+      measurementId: "G-0SYHNN5PB3"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase();
+
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    console.log(uid);
+
+const name = ref(db, 'user/' + uid + '/Fullname');
+const Email = ref(db, 'user/' + uid + '/Email');
+onValue(name, (snapshot) => {
+  const data = snapshot.val();
+  console.log('name: ' + data);
+  let profileName = document.querySelector('#profileName');
+  profileName.innerHTML = 'Name: ' + data;
+  
+
+});
+
+
+onValue(Email, (snapshot) => {
+  const data = snapshot.val();
+  console.log('Email: ' + data);
+  let email = document.querySelector('#Email');
+  email.innerHTML = 'Email: ' + data;
+  
+
+});
+
+
+
+click.addEventListener('click',(e) =>{
+  var patientID = document.getElementById('searchPatient').value;
+  alert(patientID)
+  console.log(patientID)
+
+  const heart = ref(db, 'user/' + uid + '/Incubators/'+ patientID + '/heartBeat');
+  onValue(heart, (snapshot) => {
+  const data = snapshot.val();
+  console.log('HeartBeat: ' + data);
+  let patientHeartBeat = document.querySelector('#heartBeat');
+  patientHeartBeat.innerHTML = 'HeartBeat: ' + data + ' BPM';
+});
+
+  const oxygen = ref(db, 'user/' + uid + '/Incubators/'+ patientID + '/SPO2');
+  onValue(oxygen, (snapshot) => {
+  const data = snapshot.val();
+  console.log('SPO2: ' + data);
+  let patientSPO2 = document.querySelector('#patientOxygen');
+  patientSPO2.innerHTML = 'SPO2: ' + data + ' %';
+});
+
+
+const Temperature = ref(db, 'user/' + uid + '/Incubators/'+ patientID + '/temp');
+  onValue(Temperature, (snapshot) => {
+  const data = snapshot.val();
+  console.log('Temperature: ' + data);
+  let patientTemp = document.querySelector('#Temperature');
+  patientTemp.innerHTML = 'Body Temperature: ' + data + ' *C';
+});
+
+
+});
+
+
+
+
+
+
+
+    // ...
+  } else {
+    // User is signed out
+    // ...
+
+    console.log('No signed User : (');
+  }
+});
+
+    </script>
+
+    <script src="JavaScript.js"></script>
+</body>
+</html>
